@@ -1,3 +1,6 @@
+import Animal as a
+import copy
+
 maze=[['x','x',0,'x','x'],
       [0,0,0,0,0],
       ['x',0,'x','x',0],
@@ -67,7 +70,11 @@ def findNextPlace(wallEntering,x,y):
                 return (maze[y][x-1],x-1,y)
             return ('x',x,y)
         
-bounce(2,0,6,1,-1)
+animals=[a.Animal("Duck","sound","frequency","image",6,(2,0),copy.deepcopy(maze),1),a.Animal("Cow","sound","frequency","image",8,(1,4),copy.deepcopy(maze),-1)]
 
-for row in maze:
-    print(row)
+for animal in animals:
+    maze=animal.maze
+    bounce(animal.location[0],animal.location[1],animal.soundStrength,animal.orientation,animal.orientation*-1)
+
+    for row in maze:
+        print(row)

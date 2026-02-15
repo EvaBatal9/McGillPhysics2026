@@ -22,6 +22,8 @@ GAME = "game"
 YELLOW = (255, 255, 0)
 PINK = (255, 192, 203)
 ORANGE = (255, 165, 0)
+GREEN = (0, 128, 0)
+BEIGE = (234, 210, 168)
 
 state = MENU     
 
@@ -151,10 +153,10 @@ def move_player(direction):
 
 
 buttons = {
-"left": DirecionButton(50, 300, 100, 50, "Left", PINK, "left", "left"),
-"right": DirecionButton(650, 300, 100, 50, "Right", PINK, "right", "right"),
-"up": DirecionButton(375, 250, 50, 100, "Up", PINK, "up", "up"),
-"down": DirecionButton(375, 350, 50, 100, "Down", PINK, "down", "down")
+"left": DirecionButton(0, 200, 400, 200, "Left", YELLOW, "left", "left"),
+"right": DirecionButton(400, 200, 400, 200, "Right", YELLOW, "right", "right"),
+"up": DirecionButton(300, 0, 200, 400, "Up", YELLOW, "up", "up"),
+"down": DirecionButton(300, 250, 200, 500, "Down", YELLOW, "down", "down")
 }
 
 update_buttons()
@@ -183,7 +185,7 @@ def draw_menu():
     start_button.draw(screen)
 
 def draw_game():
-    screen.fill((0, 0, 0))
+    screen.fill((251, 198, 207))
     game_surface = TITLE_FONT.render("", True, (255, 255, 255))
     for button in buttons.values():
         button.draw(screen)

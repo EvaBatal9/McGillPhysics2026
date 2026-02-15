@@ -28,7 +28,6 @@ NEWmaze=[['x', 0, 'x', 'x', 'x', 0, 'x', 'x'],
          ['x', 0, 'x', 'x', 0, 'x', 'x', 'x'],
          [0, 0, 'x', 'x', 0, 'x', 'x', 'x']]
 
-avfrequency=500
 
 
 #walls will be coded as 1,2,-1,-2 from the top clockwise

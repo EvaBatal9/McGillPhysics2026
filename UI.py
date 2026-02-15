@@ -19,11 +19,12 @@ MAXHEIGHT = 180
 MENU = "menu"
 GAME = "game"
 
-YELLOW = (255, 255, 0)
-PINK = (255, 192, 203)
+YELLOW = (255, 237, 100)
+PINK = (244, 165, 198)
 ORANGE = (255, 165, 0)
 GREEN = (0, 128, 0)
-BEIGE = (234, 210, 168)
+BEIGE = (252, 202, 82)
+
 
 state = MENU     
 
@@ -31,11 +32,14 @@ screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 
+
+background = pygame.image.load("background.png").convert()
+background = pygame.transform.scale(background, (screen_width, screen_height))
+
 original_arrow = pygame.Surface((50, 20), pygame.SRCALPHA)
 pygame.draw.polygon(original_arrow, YELLOW, [(0, 0), (50, 10), (0, 20)])
 arrow_pos = pygame.Vector2(400, 500)
 arrow_rect = original_arrow.get_rect(center=arrow_pos)
-hover_imgl1 = pygame.image.load("hover_image.png").convert_alpha()
 
 
 TITLE_FONT = pygame.font.SysFont("freesansbold.ttf", 48)
@@ -66,7 +70,7 @@ class Button:
         if self.action:
             self.action()
 
-start_button = Button(300, 500, 200, 50, "Start Game", ORANGE)
+start_button = Button(300, 380, 150, 50, "Start Game", ORANGE)
 
 
 
@@ -169,10 +173,10 @@ def move_player(direction):
 
 
 buttons = {
-"left": DirecionButton(0, 200, 400, 200, "Left", YELLOW, "left", "left"),
-"right": DirecionButton(400, 200, 400, 200, "Right", YELLOW, "right", "right"),
-"up": DirecionButton(300, 0, 200, 400, "Up", YELLOW, "up", "up"),
-"down": DirecionButton(300, 250, 200, 500, "Down", YELLOW, "down", "down")
+"left": DirecionButton(0, 200, 400, 200, "Left", BEIGE, "left", "left"),
+"right": DirecionButton(400, 200, 400, 200, "Right", BEIGE, "right", "right"),
+"up": DirecionButton(300, 0, 200, 400, "Up", BEIGE, "up", "up"),
+"down": DirecionButton(300, 250, 200, 500, "Down", BEIGE, "down", "down")
 }
 
 update_buttons()
@@ -191,13 +195,12 @@ def handle_menu_events(event):
             state = GAME
        
 def draw_menu():
-    screen.fill(YELLOW)
-    title_surface = TITLE_FONT.render("Love, Duck, and FFT", True, PINK)
-    screen.blit(title_surface, (screen_width // 2 - title_surface.get_width() // 2, 100))
+
+    screen.blit(background, (0, 0))
     start_button.draw(screen)
 
 def draw_game():
-    screen.fill((251, 198, 207))
+    screen.fill((244, 165, 198))
     game_surface = TITLE_FONT.render("", True, (255, 255, 255))
     for button in buttons.values():
         button.draw(screen)

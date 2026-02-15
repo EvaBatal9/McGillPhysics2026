@@ -77,13 +77,6 @@ class DirecionButton:
     def is_clicked(self,pos):
         return self.visible and self.rect.collidepoint(pos)
     
-    def update_buttons():
-        global player_posx, y = player_pos 
-        valid_directions = get_valid_directions(maze, x, y)
-
-        for direction, button in buttons.items():
-            button.visible = direction in valid_directions
-            
 
 player_pos = None
 
@@ -120,6 +113,16 @@ def get_valid_directions(maze, x, y):
         valid.append("right")
 
     return valid
+
+
+def update_buttons():
+    global player_pos
+    x,y = player_pos 
+    valid_directions = get_valid_directions(maze, x, y)
+
+    for direction, button in buttons.items():
+        button.visible = direction in valid_directions
+            
     
 def move_player(direction):
         global player_pos
@@ -137,14 +140,19 @@ def move_player(direction):
 
 
 buttons = {
-"LEFT": DirecionButton(50, 300, 100, 50, "Left", PINK, "left", "left"),
-"RIGHT": DirecionButton(650, 300, 100, 50, "Right", PINK, "right", "right"),
-"UP": DirecionButton(375, 250, 50, 100, "Up", PINK, "up", "up"),
-"DOWN": DirecionButton(375, 350, 50, 100, "Down", PINK, "down", "down")
+"left": DirecionButton(50, 300, 100, 50, "Left", PINK, "left", "left"),
+"right": DirecionButton(650, 300, 100, 50, "Right", PINK, "right", "right"),
+"up": DirecionButton(375, 250, 50, 100, "Up", PINK, "up", "up"),
+"down": DirecionButton(375, 350, 50, 100, "Down", PINK, "down", "down")
 }
 
+update_buttons()
 
-
+def handle_game_events(event):
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        for button in buttons.values():
+            if button.is_clicked(event.pos):
+                move_player(button.direction)
 
 def handle_menu_events(event):
     global state
@@ -152,10 +160,6 @@ def handle_menu_events(event):
     if event.type == pygame.MOUSEBUTTONDOWN:
         if start_button.is_hovered(event.pos):
             state = GAME
-        for direction, button in buttons.items():
-            if button.is_clicked(event.pos):
-                button.move_player(button.direction)
-      
        
 def draw_menu():
     screen.fill(YELLOW)
@@ -165,7 +169,7 @@ def draw_menu():
 
 def draw_game():
     screen.fill((0, 0, 0))
-    game_surface = TITLE_FONT.render("Game Screen 1", True, (255, 255, 255))
+    game_surface = TITLE_FONT.render("", True, (255, 255, 255))
     for button in buttons.values():
         button.draw(screen)
 
@@ -193,8 +197,11 @@ while running:
             
         elif state == GAME:
             handle_game_events(event)
-            draw_game()
-   
+    
+    if state == MENU:
+        draw_menu()
+    elif state == GAME:
+        draw_game()
         
 
     pygame.display.flip()

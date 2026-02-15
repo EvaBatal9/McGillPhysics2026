@@ -14,7 +14,7 @@ pygame.init()
 
 LABEL_FONT = pygame.font.SysFont('arial', 9)
 BASELINE = 520
-MAXHEIGHT = 180
+MAXHEIGHT = 150
 MENU = "menu"
 GAME = "game"
 
@@ -368,7 +368,7 @@ while running:
         if duck_amp_at_t != 0:
             duck_height = MAXHEIGHT * (duck_amp_at_t / animals[0].maze[animals[0].location[1]][animals[0].location[0]])
         duck_rect = pygame.Rect(25, BASELINE - duck_height, 30, duck_height)
-        pygame.draw.rect(screen, (255, 255, 224), duck_rect)
+        pygame.draw.rect(screen, (252, 232, 131), duck_rect)
         duck_label = LABEL_FONT.render("Duck", True, (0,0,0))
         screen.blit(duck_label, duck_label.get_rect(center=(duck_rect.centerx, BASELINE + 20)))
 

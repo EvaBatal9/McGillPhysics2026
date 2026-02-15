@@ -7,7 +7,7 @@ from mazeTest import animals
 pressures=[Duck_pressure, Cat_pressure, Cow_pressure, Dog_pressure, Donkey_pressure, Kathy_pressure, Lion_pressure, Monkey_pressure, Pig_pressure]
 
 for i in range(len(animals)):
-    animals[i].pressure=pressures[i]
+    animals[i].unpackedPressure=pressures[i]
 
 '''animals = {
     "Duck": Duck_pressure,
@@ -40,7 +40,7 @@ for i in range(len(animals)):
 
 
 for animal in animals:
-    time, pressure = animal.pressure
+    time, pressure = animal.unpackedPressure
 
     N = len(pressure)
     dt = time[1] - time[0]
@@ -52,8 +52,10 @@ for animal in animals:
     positive = freqs > 0
 
     ID = freqs[np.argmax(magnitude[positive])]
+    weighted_mean = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
 
     animal.time=time
     animal.pressure=pressure
     animal.ID=ID
+    animal.weightedMean=weighted_mean
 

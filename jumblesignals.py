@@ -1,6 +1,6 @@
 import numpy as np
 #from audiopressure import Duck_pressure, Cat_pressure, Cow_pressure, Dog_pressure, Donkey_pressure, Kathy_pressure, Lion_pressure, Monkey_pressure, Pig_pressure
-from FFTstandard_freq import animals
+from mazeTest import animals
 
 pressures=[]
 times=[]

@@ -1,6 +1,6 @@
 import scipy.fft as sp
-from jumblesignals import jumbled_pressure, Time
-from FFTstandard_freq import animals
+from jumblesignals import makeSignal, Time
+from mazeTest import animals
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -18,7 +18,7 @@ lion_amp = []
 monkey_amp = []
 pig_amp = []
 
-def amplitude_generator():
+def amplitude_generator(position):
         
     k = 0
     i = time_step
@@ -30,7 +30,7 @@ def amplitude_generator():
         #then repeat until i = len(Time)
         
         current_time_array = Time[k:i]
-        current_pressure_array = jumbled_pressure[k:i]
+        current_pressure_array = makeSignal(position)[k:i]
 
         N = len(current_pressure_array)
         dt = current_time_array[1] - current_time_array[0]
@@ -69,4 +69,3 @@ def amplitude_generator():
         # we see what the amplitude is for each of the animals IDs, 
         # and then we associate an amplitude to each animal
 
-amplitude_generator()

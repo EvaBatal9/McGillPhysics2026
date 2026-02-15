@@ -166,6 +166,7 @@ def handle_game_events(event):
                 #this should be generated when you point the signalscope in a direction and use the coordinates of the pointed direction
                 signal=makeSignal(player_pos)
                 print(signal)
+                print(amplitude_generator(player_pos,signal))
                 move_player(button.direction)
 
 def handle_menu_events(event):
@@ -213,7 +214,7 @@ lion_amp = []
 monkey_amp = []
 pig_amp = []
 
-def amplitude_generator(position):
+def amplitude_generator(position,signal):
         
     k = 0
     i = time_step
@@ -224,7 +225,7 @@ def amplitude_generator(position):
         #then repeat until i = len(Time)
         
         current_time_array = Time[k:i]
-        current_pressure_array = makeSignal(position)[k:i]
+        current_pressure_array = signal[k:i]
 
         N = len(current_pressure_array)
         dt = current_time_array[1] - current_time_array[0]
@@ -237,10 +238,10 @@ def amplitude_generator(position):
 
         amplitudes = {}
 
-        for name in animals:
-            target_freq = animals[name][2]
+        for animal in animals:
+            target_freq = animal.ID
             idx = np.argmin(np.abs(freqs - target_freq))
-            amplitudes[name] = magnitude[idx]
+            amplitudes[animal.name] = magnitude[idx]
 
 
         duck_amp.append(int(amplitudes["Duck"]))

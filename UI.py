@@ -2,6 +2,9 @@ import pygame
 import sys
 import math
 import time
+pygame.init()
+from signalscope import duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp
+
 from jumblesignals import makeSignal
 pygame.init() 
 
@@ -187,9 +190,20 @@ def draw_game():
 
     screen.blit(game_surface, (screen_width // 2 - game_surface.get_width() // 2, screen_height // 2 - game_surface.get_height() // 2))
 
+k = 0
+
+def getting_amplitude_per_time(animal_amp):
+    while k <= len(animal_amp):
+        current_amp = animal_amp[k]
+        time.sleep(0.1)
+        k += 1
+    
+
 
 running = True
 clock = pygame.time.Clock()
+#calling amplitude generator function
+
 
 while running:
     for event in pygame.event.get():
@@ -205,6 +219,10 @@ while running:
     if state == MENU:
         draw_menu()
     elif state == GAME:
+        
+            
+
+
         draw_game()
         
 

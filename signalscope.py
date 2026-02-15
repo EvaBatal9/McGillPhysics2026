@@ -11,6 +11,10 @@ k = 0
 i = time_step
 
 while i <= len(Time):
+    #everything from k = 0 to time_step is the first interval
+    #then k += time step, i += timestep
+    #then repeat until i = len(Time)
+      
     current_time_array = Time[k:i]
     current_pressure_array = jumbled_pressure[k:i]
 
@@ -35,38 +39,14 @@ while i <= len(Time):
     k += time_step
     i += time_step
 
+    for name in animals:
+        target_freq = animals[name][2]
+        idx = np.argmin(np.abs(freqs - target_freq))
+        amplitude = magnitude[idx]
+        print(f"{name}: {amplitude}")
 
 
-
-    #everything from k = 0 to time_step is the first interval
-    #then k += time step, i += timestep
-    #then repeat until i = len(Time)
-
-
-
-
-
-
-
-
-
-
-
-"""
-def matchfrequency(animal_fft):
-    i = 0
-    counter = 0
-    n = 0
-    while i <= len(frequency_total):
-        if animal_fft[i] == frequency_total[i+n]:
-           counter += 1
-        else:
-            n+=1    
-        i += 1
-    
-    if counter == len(animal_fft):
-        return True
-    else:
-        return False
-
-"""
+    #pseudo code for what's going on:
+    #we have the amplitude per frequency graph for the active time interval we are in, 
+    # we see what the amplitude is for each of the animals IDs, 
+    # and then we associate an amplitude to each animal

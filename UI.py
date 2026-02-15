@@ -351,7 +351,7 @@ while running:
         # DUCK
         duck_amp_at_t = get_amplitude_at_index(duck_amp, t)
         if duck_amp_at_t != 0:
-            duck_height = MAXHEIGHT * (duck_amp_at_t / animals[0].soundStrength)
+            duck_height = MAXHEIGHT * (duck_amp_at_t / animals[0].rms*1000)
 
         duck_rect = pygame.Rect(25, BASELINE - duck_height, 30, duck_height)
         pygame.draw.rect(screen, (255, 255, 224), duck_rect)
@@ -362,7 +362,7 @@ while running:
         # CAT
         cat_amp_at_t = get_amplitude_at_index(cat_amp, t)
         if cat_amp_at_t != 0:
-            cat_height = MAXHEIGHT * (cat_amp_at_t / animals[1].soundStrength)
+            cat_height = MAXHEIGHT * (cat_amp_at_t / animals[1].rms*1000)
 
         cat_rect = pygame.Rect(55, BASELINE - cat_height, 30, cat_height)
         pygame.draw.rect(screen, (211, 211, 211), cat_rect)
@@ -373,7 +373,7 @@ while running:
         # COW
         cow_amp_at_t = get_amplitude_at_index(cow_amp, t)
         if cow_amp_at_t != 0:
-            cow_height = MAXHEIGHT * (cow_amp_at_t / animals[2].soundStrength)
+            cow_height = MAXHEIGHT * (cow_amp_at_t / animals[2].rms*1000)
 
         cow_rect = pygame.Rect(85, BASELINE - cow_height, 30, cow_height)
         pygame.draw.rect(screen, (0, 0, 0), cow_rect)
@@ -384,7 +384,7 @@ while running:
         # DOG
         dog_amp_at_t = get_amplitude_at_index(dog_amp, t)
         if dog_amp_at_t != 0:
-            dog_height = MAXHEIGHT * (dog_amp_at_t / animals[3].soundStrength)
+            dog_height = MAXHEIGHT * (dog_amp_at_t / animals[3].rms*1000)
 
         dog_rect = pygame.Rect(115, BASELINE - dog_height, 30, dog_height)
         pygame.draw.rect(screen, (101, 67, 33), dog_rect)
@@ -395,7 +395,7 @@ while running:
         # DONKEY
         donkey_amp_at_t = get_amplitude_at_index(donkey_amp, t)
         if donkey_amp_at_t != 0:
-            donkey_height = MAXHEIGHT * (donkey_amp_at_t / animals[4].soundStrength)
+            donkey_height = MAXHEIGHT * (donkey_amp_at_t / animals[4].rms*1000)
 
         donkey_rect = pygame.Rect(145, BASELINE - donkey_height, 30, donkey_height)
         pygame.draw.rect(screen, (128, 128, 128), donkey_rect)
@@ -406,7 +406,7 @@ while running:
         # KATHY
         kathy_amp_at_t = get_amplitude_at_index(kathy_amp, t)
         if kathy_amp_at_t != 0:
-            kathy_height = MAXHEIGHT * (kathy_amp_at_t / animals[5].soundStrength)
+            kathy_height = MAXHEIGHT * (kathy_amp_at_t / animals[5].rms*1000)
 
         kathy_rect = pygame.Rect(175, BASELINE - kathy_height, 30, kathy_height)
         pygame.draw.rect(screen, (216, 191, 216), kathy_rect)
@@ -417,29 +417,28 @@ while running:
         # LION
         lion_amp_at_t = get_amplitude_at_index(lion_amp, t)
         if lion_amp_at_t != 0:
-            lion_height = MAXHEIGHT * (lion_amp_at_t / animals[6].soundStrength)
+            lion_height = MAXHEIGHT * (lion_amp_at_t / animals[6].rms*1000)
 
         lion_rect = pygame.Rect(205, BASELINE - lion_height, 30, lion_height)
         pygame.draw.rect(screen, (207, 185, 151), lion_rect)
         lion_label = LABEL_FONT.render("Lion", True, (0,0,0))
         screen.blit(lion_label, lion_label.get_rect(center=(lion_rect.centerx, BASELINE + 20)))
 
-
         # MONKEY
         monkey_amp_at_t = get_amplitude_at_index(monkey_amp, t)
         if monkey_amp_at_t != 0:
-            monkey_height = MAXHEIGHT * (monkey_amp_at_t / animals[7].soundStrength)
+            monkey_height = MAXHEIGHT * (monkey_amp_at_t / animals[7].rms*1000)
 
         monkey_rect = pygame.Rect(235, BASELINE - monkey_height, 30, monkey_height)
         pygame.draw.rect(screen, (150, 75, 0), monkey_rect)
         monkey_label = LABEL_FONT.render("Monkey", True, (0,0,0))
         screen.blit(monkey_label, monkey_label.get_rect(center=(monkey_rect.centerx, BASELINE + 20)))
 
-
         # PIG
         pig_amp_at_t = get_amplitude_at_index(pig_amp, t)
         if pig_amp_at_t != 0:
-            pig_height = MAXHEIGHT * (pig_amp_at_t / animals[8].soundStrength)
+            pig_height = MAXHEIGHT * (pig_amp_at_t / animals[8].rms*1000)
+        print(animals[8].rms)
 
         pig_rect = pygame.Rect(265, BASELINE - pig_height, 30, pig_height)
         pygame.draw.rect(screen, (255, 182, 193), pig_rect)

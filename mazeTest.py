@@ -32,7 +32,7 @@ avfrequency=500
 def bounce(x,y,strength,wallHitting,wallEntering, emptycount):
     global NEWmaze
     print(x,y,NEWmaze[y][x],strength)
-    if strength<=3: #temporarily 3, but should be a number based on how long we want the wave to propagate for
+    if strength<=0.01: #temporarily 3, but should be a number based on how long we want the wave to propagate for
         print("finished a route")
         return
     NEWmaze[y][x]+=strength
@@ -103,7 +103,7 @@ def findNextPlace(wallEntering,x,y):
                 return (NEWmaze[y][x-1],x-1,y)
             return ('x',x,y)
         
-animals=[a.Animal("Duck","sound","frequency","image",6,(1,0),copy.deepcopy(NEWmaze))]#,a.Animal("Cow","sound","frequency","image",8,(1,4),copy.deepcopy(NEWmaze))]
+animals=[a.Animal("Duck","sound","frequency","image",6,(0,2),copy.deepcopy(NEWmaze))]#,a.Animal("Cow","sound","frequency","image",8,(1,4),copy.deepcopy(NEWmaze))]
 dirs={(1,0):(-2,2),(-1,0):(2,-2),(0,1):(-1,1),(0,-1):(1,-1),(1,1):(-1,2),(-1,-1):(1,-2),(1,-1):(1,2),(-1,1):(-1,-2)}
 
 for animal in animals:
@@ -113,6 +113,7 @@ for animal in animals:
         if len(NEWmaze[0])>animal.location[0]+dir[0]>0 and len(NEWmaze)>animal.location[1]+dir[1]>0:
             if NEWmaze[animal.location[1]+dir[1]][animal.location[0]+dir[0]]!='x':
                 print("sent out")
+                print(dir)
                 bounce(animal.location[0],animal.location[1],animal.soundStrength,orientation[1],orientation[0],1)
 
     for row in NEWmaze:

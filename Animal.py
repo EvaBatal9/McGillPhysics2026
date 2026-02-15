@@ -6,9 +6,8 @@ class Animal:
     soundStrength=None
     location=None
     maze=None
-    orientation=None
 
-    def __init__(self,name,sound,frequency,image,soundStrength,location,maze,orientation):
+    def __init__(self,name,sound,frequency,image,soundStrength,location,maze):
         self.name=name
         self.sound=sound
         self.frequency=frequency
@@ -16,4 +15,3 @@ class Animal:
         self.soundStrength=soundStrength
         self.location=location
         self.maze=maze
-        self.orientation=orientation

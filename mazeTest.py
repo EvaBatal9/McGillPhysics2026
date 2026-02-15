@@ -70,11 +70,16 @@ def findNextPlace(wallEntering,x,y):
                 return (maze[y][x-1],x-1,y)
             return ('x',x,y)
         
-animals=[a.Animal("Duck","sound","frequency","image",6,(2,0),copy.deepcopy(maze),1),a.Animal("Cow","sound","frequency","image",8,(1,4),copy.deepcopy(maze),-1)]
+animals=[a.Animal("Duck","sound","frequency","image",6,(2,0),copy.deepcopy(maze)),a.Animal("Cow","sound","frequency","image",8,(1,4),copy.deepcopy(maze))]
+dirs={(1,0):(-2,2),(-1,0):(2,-2),(0,1):(-1,1),(0,-1):(1,-1),(1,1):(-1,2),(-1,-1):(1,-2),(1,-1):(1,2),(-1,1):(-1,-2)}
 
 for animal in animals:
     maze=animal.maze
-    bounce(animal.location[0],animal.location[1],animal.soundStrength,animal.orientation,animal.orientation*-1)
+    for dir,orientation in dirs.items():
+        if len(maze[0])>animal.location[0]+dir[0]>0 and len(maze)>animal.location[1]+dir[1]>0:
+            if maze[animal.location[1]+dir[1]][animal.location[0]+dir[0]]!='x':
+                print("sent out")
+                bounce(animal.location[0],animal.location[1],animal.soundStrength,orientation[1],orientation[0])
 
     for row in maze:
         print(row)

@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 from audiopressure import Duck_pressure, Cat_pressure, Cow_pressure, Dog_pressure, Donkey_pressure, Kathy_pressure, Lion_pressure, Monkey_pressure, Pig_pressure
 from mazeTest import animals
 
-for animal in animals:
-    print(animal.maze)
+pressures=[Duck_pressure, Cat_pressure, Cow_pressure, Dog_pressure, Donkey_pressure, Kathy_pressure, Lion_pressure, Monkey_pressure, Pig_pressure]
 
-animals = {
+for i in range(len(animals)):
+    animals[i].pressure=pressures[i]
+
+'''animals = {
     "Duck": Duck_pressure,
     "Cat": Cat_pressure,
     "Cow": Cow_pressure,
@@ -17,10 +19,10 @@ animals = {
     "Lion": Lion_pressure,
     "Monkey": Monkey_pressure,
     "Pig": Pig_pressure
-}
+}'''
 
 
-for name, data in animals.items():
+'''for name, data in animals.items():
     time, pressure = data
 
     N = len(pressure)
@@ -34,5 +36,24 @@ for name, data in animals.items():
 
     ID = freqs[np.argmax(magnitude[positive])]
 
-    animals[name] = (time, pressure, ID)
-    
+    animals[name] = (time, pressure, ID)'''
+
+
+for animal in animals:
+    time, pressure = animal.pressure
+
+    N = len(pressure)
+    dt = time[1] - time[0]
+    freqs = sp.fftfreq(N, dt)
+
+    fft_vals = sp.fft(pressure)
+    magnitude = np.abs(fft_vals)
+
+    positive = freqs > 0
+
+    ID = freqs[np.argmax(magnitude[positive])]
+
+    animal.time=time
+    animal.pressure=pressure
+    animal.ID=ID
+

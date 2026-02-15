@@ -1,11 +1,15 @@
 class Animal:
     name=None
     sound=None
-    frequency=None
+    ID=None
     image=None
     soundStrength=None
     location=None
     maze=None
+    pressure=None
+    time=None
+    pressure=None
+
 
     def __init__(self,name,sound,frequency,image,soundStrength,location,maze):
         self.name=name

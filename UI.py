@@ -3,19 +3,21 @@ import sys
 import math
 import time
 pygame.init()
+screen = pygame.display.set_mode((800, 600))
 #from signalscope import duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp
 import scipy.fft as sp
 from jumblesignals import makeSignal, Time
-from mazeTest import animals
+from mazeTest import animals, NEWmaze
 import matplotlib.pyplot as plt
 import numpy as np
 from FFTstandard_freq import createValues, plot_animal_spectra
 pygame.init() 
-from mazeTest import animals 
+import Animal as a
+
 
 LABEL_FONT = pygame.font.SysFont('arial', 9)
 BASELINE = 520
-MAXHEIGHT = 150
+MAXHEIGHT = 180
 MENU = "menu"
 GAME = "game"
 
@@ -103,16 +105,15 @@ class DirecionButton:
         return self.visible and self.rect.collidepoint(pos)
     def update(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
+            print(self.direction)
             dx, dy = {
             "up": (0, -1), 
             "down": (0, 1),
             "left": (-1, 0),
             "right": (1, 0)
         }[self.direction]
-            self.signal=makeSignal((player_pos[0]+dx,player_pos[1]+dy))
-            amps=amplitude_generator((player_pos[0]+dx,player_pos[1]+dy),self.signal)
-    def is_hovered(self, pos):
-        return self.rect.collidepoint(pos)
+            signal=makeSignal((player_pos[0]+dx,player_pos[1]+dy))
+            amps=amplitude_generator((player_pos[0]+dx,player_pos[1]+dy),signal)
 
 
     
@@ -138,7 +139,7 @@ for y in range(len(maze)):
 
 animal_position = {}
 for a in animals:
-    animal_position[a.position] = a
+    animal_position[a.location] = a
 
 
 def get_valid_directions(maze, x, y):
@@ -158,6 +159,28 @@ def get_valid_directions(maze, x, y):
 
     return valid
 
+duck_img = pygame.image.load("duck.png").convert_alpha()
+cat_img = pygame.image.load("cat.png").convert_alpha()
+cow_img = pygame.image.load("cow.png").convert_alpha()
+dog_img = pygame.image.load("dog.png").convert_alpha()
+donkey_img = pygame.image.load("donkey.png").convert_alpha()
+kathy_img = pygame.image.load("kathy.png").convert_alpha()
+lion_img = pygame.image.load("lion.png").convert_alpha()
+monkey_img = pygame.image.load("monkey.png").convert_alpha()
+pig_img = pygame.image.load("pig.png").convert_alpha()
+
+
+TILE_SIZE = 70
+
+def draw_animals():
+    for animal in animals:
+        x, y = animal.location
+        px = x * TILE_SIZE + 20
+        py = y * TILE_SIZE + 20
+        animal.image = animal.image.convert_alpha()
+        img = pygame.transform.scale(animal.image, (60, 60))
+        screen.blit(img, (px, py))
+
 def get_animal_in_direction(maze, x, y, direction):
     dx, dy = {
         "up": (0, -1),
@@ -166,7 +189,7 @@ def get_animal_in_direction(maze, x, y, direction):
         "right": (1, 0)
     }[direction]
 
-    pos = player_pos[0] + dx, player_pos[1] + dy
+    pos = (x + dx, y + dy)
     return animal_position.get(pos)
 
 
@@ -231,8 +254,12 @@ def draw_menu():
 def draw_game():
     screen.fill((244, 165, 198))
     game_surface = TITLE_FONT.render("", True, (255, 255, 255))
+
+
     for button in buttons.values():
         button.draw(screen)
+
+    draw_animals()
 
     mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
     direction = mouse_pos - arrow_pos
@@ -250,17 +277,17 @@ def draw_game():
 time_step = int(len(Time) / 26.6)
 
 
+duck_amp = []
+cat_amp = []
+cow_amp = []
+dog_amp = []
+donkey_amp = []
+kathy_amp = []
+lion_amp = []
+monkey_amp = []
+pig_amp = []
 
 def amplitude_generator(position,signal):
-    duck_amp = []
-    cat_amp = []
-    cow_amp = []
-    dog_amp = []
-    donkey_amp = []
-    kathy_amp = []
-    lion_amp = []
-    monkey_amp = []
-    pig_amp = []
         
     k = 0
     i = time_step
@@ -318,8 +345,10 @@ def get_amplitude_at_index(animal_amp, index):
     index = index % len(animal_amp)  # wrap around
     return animal_amp[index]
 
+#duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp = amplitude_generator(position)
 
 createValues(animals)
+plot_animal_spectra(animals)
 
 # THEN start pygame stuff
 
@@ -344,25 +373,9 @@ monkey_height = 0
 pig_height = 0
 
 while running:
-    
-    duck_amp = []
-    cat_amp = []
-    cow_amp = []
-    dog_amp = []
-    donkey_amp = []
-    kathy_amp = []
-    lion_amp = []
-    monkey_amp = []
-    pig_amp = []
-    for animal in animals:
-        if animal.location==player_pos:
-            print(animal.name)
     for name,button in buttons.items():
         if button.visible:
             button.update()
-            if button.is_hovered(pygame.mouse.get_pos()):
-                duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp=amplitude_generator(player_pos,button.signal)
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -397,9 +410,10 @@ while running:
         # DUCK
         duck_amp_at_t = get_amplitude_at_index(duck_amp, t)
         if duck_amp_at_t != 0:
-            duck_height = MAXHEIGHT * (duck_amp_at_t / animals[0].maze[animals[0].location[1]][animals[0].location[0]])
+            duck_height = MAXHEIGHT * (duck_amp_at_t / animals[0].rms*1000)
+
         duck_rect = pygame.Rect(25, BASELINE - duck_height, 30, duck_height)
-        pygame.draw.rect(screen, (252, 232, 131), duck_rect)
+        pygame.draw.rect(screen, (255, 255, 224), duck_rect)
         duck_label = LABEL_FONT.render("Duck", True, (0,0,0))
         screen.blit(duck_label, duck_label.get_rect(center=(duck_rect.centerx, BASELINE + 20)))
 
@@ -407,7 +421,7 @@ while running:
         # CAT
         cat_amp_at_t = get_amplitude_at_index(cat_amp, t)
         if cat_amp_at_t != 0:
-            cat_height = MAXHEIGHT * (cat_amp_at_t / animals[1].maze[animals[1].location[1]][animals[1].location[0]])
+            cat_height = MAXHEIGHT * (cat_amp_at_t / animals[1].rms*1000)
 
         cat_rect = pygame.Rect(55, BASELINE - cat_height, 30, cat_height)
         pygame.draw.rect(screen, (211, 211, 211), cat_rect)
@@ -418,7 +432,7 @@ while running:
         # COW
         cow_amp_at_t = get_amplitude_at_index(cow_amp, t)
         if cow_amp_at_t != 0:
-            cow_height = MAXHEIGHT * (cow_amp_at_t / animals[1].maze[animals[1].location[1]][animals[1].location[0]])
+            cow_height = MAXHEIGHT * (cow_amp_at_t / animals[2].rms*1000)
 
         cow_rect = pygame.Rect(85, BASELINE - cow_height, 30, cow_height)
         pygame.draw.rect(screen, (0, 0, 0), cow_rect)
@@ -429,7 +443,7 @@ while running:
         # DOG
         dog_amp_at_t = get_amplitude_at_index(dog_amp, t)
         if dog_amp_at_t != 0:
-            dog_height = MAXHEIGHT * (dog_amp_at_t / animals[2].maze[animals[2].location[1]][animals[2].location[0]])
+            dog_height = MAXHEIGHT * (dog_amp_at_t / animals[3].rms*1000)
 
         dog_rect = pygame.Rect(115, BASELINE - dog_height, 30, dog_height)
         pygame.draw.rect(screen, (101, 67, 33), dog_rect)
@@ -440,7 +454,7 @@ while running:
         # DONKEY
         donkey_amp_at_t = get_amplitude_at_index(donkey_amp, t)
         if donkey_amp_at_t != 0:
-            donkey_height = MAXHEIGHT * (donkey_amp_at_t / animals[4].maze[animals[4].location[1]][animals[4].location[0]])
+            donkey_height = MAXHEIGHT * (donkey_amp_at_t / animals[4].rms*1000)
 
         donkey_rect = pygame.Rect(145, BASELINE - donkey_height, 30, donkey_height)
         pygame.draw.rect(screen, (128, 128, 128), donkey_rect)
@@ -451,7 +465,7 @@ while running:
         # KATHY
         kathy_amp_at_t = get_amplitude_at_index(kathy_amp, t)
         if kathy_amp_at_t != 0:
-            kathy_height = MAXHEIGHT * (kathy_amp_at_t / animals[5].maze[animals[5].location[1]][animals[5].location[0]])
+            kathy_height = MAXHEIGHT * (kathy_amp_at_t / animals[5].rms*1000)
 
         kathy_rect = pygame.Rect(175, BASELINE - kathy_height, 30, kathy_height)
         pygame.draw.rect(screen, (216, 191, 216), kathy_rect)
@@ -462,29 +476,28 @@ while running:
         # LION
         lion_amp_at_t = get_amplitude_at_index(lion_amp, t)
         if lion_amp_at_t != 0:
-            lion_height = MAXHEIGHT * (lion_amp_at_t / animals[6].maze[animals[6].location[1]][animals[6].location[0]])
+            lion_height = MAXHEIGHT * (lion_amp_at_t / animals[6].rms*1000)
 
         lion_rect = pygame.Rect(205, BASELINE - lion_height, 30, lion_height)
         pygame.draw.rect(screen, (207, 185, 151), lion_rect)
         lion_label = LABEL_FONT.render("Lion", True, (0,0,0))
         screen.blit(lion_label, lion_label.get_rect(center=(lion_rect.centerx, BASELINE + 20)))
 
-
         # MONKEY
         monkey_amp_at_t = get_amplitude_at_index(monkey_amp, t)
         if monkey_amp_at_t != 0:
-            monkey_height = MAXHEIGHT * (monkey_amp_at_t / animals[7].maze[animals[7].location[1]][animals[7].location[0]])
+            monkey_height = MAXHEIGHT * (monkey_amp_at_t / animals[7].rms*1000)
 
         monkey_rect = pygame.Rect(235, BASELINE - monkey_height, 30, monkey_height)
         pygame.draw.rect(screen, (150, 75, 0), monkey_rect)
         monkey_label = LABEL_FONT.render("Monkey", True, (0,0,0))
         screen.blit(monkey_label, monkey_label.get_rect(center=(monkey_rect.centerx, BASELINE + 20)))
 
-
         # PIG
         pig_amp_at_t = get_amplitude_at_index(pig_amp, t)
         if pig_amp_at_t != 0:
-            pig_height = MAXHEIGHT * (pig_amp_at_t / animals[8].maze[animals[8].location[1]][animals[8].location[0]])
+            pig_height = MAXHEIGHT * (pig_amp_at_t / animals[8].rms*1000)
+        print(animals[8].rms)
 
         pig_rect = pygame.Rect(265, BASELINE - pig_height, 30, pig_height)
         pygame.draw.rect(screen, (255, 182, 193), pig_rect)

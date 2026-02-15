@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from FFTstandard_freq import createValues, plot_animal_spectra
 pygame.init() 
+from mazeTest import animals 
 
 LABEL_FONT = pygame.font.SysFont('arial', 9)
 BASELINE = 520
@@ -82,13 +83,20 @@ class DirecionButton:
         self.direction = direction
         self.label = label
         self.visible = False 
+        self.animal_img = None 
 
     def draw (self, screen):
         if not self.visible:
             return
         pygame.draw.rect(screen, self.color, self.rect)
-        text_surface = BUTTON_FONT.render (self.text, True, (255,255,255))
-        screen.blit(text_surface, (self.rect.x + (self.rect.width - text_surface.get_width()) // 2,
+
+        if self.animal_img:
+            img = pygame.transform.scale(self.animal_img, (90, 90))
+            screen.blit(img, img.get_rect(center=self.rect.center))
+            
+        else:
+            text_surface = BUTTON_FONT.render (self.text, True, (255,255,255))
+            screen.blit(text_surface, (self.rect.x + (self.rect.width - text_surface.get_width()) // 2,
                                     self.rect.y + (self.rect.height -text_surface.get_height()) // 2 ))
 
     def is_clicked(self,pos):
@@ -128,6 +136,11 @@ for y in range(len(maze)):
     if player_pos:
         break
 
+animal_position = {}
+for a in animals:
+    animal_position[a.position] = a
+
+
 def get_valid_directions(maze, x, y):
     valid = []
 
@@ -145,6 +158,17 @@ def get_valid_directions(maze, x, y):
 
     return valid
 
+def get_animal_in_direction(maze, x, y, direction):
+    dx, dy = {
+        "up": (0, -1),
+        "down": (0, 1),
+        "left": (-1, 0),
+        "right": (1, 0)
+    }[direction]
+
+    pos = player_pos[0] + dx, player_pos[1] + dy
+    return animal_position.get(pos)
+
 
 def update_buttons():
     global player_pos
@@ -153,6 +177,12 @@ def update_buttons():
 
     for direction, button in buttons.items():
         button.visible = direction in valid_directions
+        button.animal_img = None
+
+        if button.visible:
+            animal = get_animal_in_direction(maze, x, y, direction)
+            if animal:
+                button.animal_img = animal.image  
             
     
 def move_player(direction):
@@ -176,6 +206,7 @@ buttons = {
 "up": DirecionButton(300, 0, 200, 400, "Up", BEIGE, "up", "up"),
 "down": DirecionButton(300, 250, 200, 500, "Down", BEIGE, "down", "down")
 }
+
 
 update_buttons()
 

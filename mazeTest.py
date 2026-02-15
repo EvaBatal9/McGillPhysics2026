@@ -3,6 +3,8 @@ import copy
 from math import pi, e, sqrt
 from FFTstandard_freq import createValues
 from audiopressure import getRms
+import pygame
+
 
 maze=[['x','x',0,'x','x'],
       [0,0,0,0,0],
@@ -113,7 +115,18 @@ def findNextPlace(wallEntering,x,y):
                 return ('x',x,y)
             return ('x',x,y)
         
-animals=[a.Animal("Duck","sound","frequency","image",9,(1,0),copy.deepcopy(NEWmaze)),a.Animal("Cat","sound","frequency","image",8,(4,7),copy.deepcopy(NEWmaze)),a.Animal("Cow","sound","frequency","image",8,(0,2),copy.deepcopy(NEWmaze)),a.Animal("Dog","sound","frequency","image",8,(7,2),copy.deepcopy(NEWmaze)),a.Animal("Donkey","sound","frequency","image",6,(0,4),copy.deepcopy(NEWmaze)),a.Animal("Kathy","sound","frequency","image",6,(0,7),copy.deepcopy(NEWmaze)),a.Animal("Lion","sound","frequency","image",6,(5,0),copy.deepcopy(NEWmaze)),a.Animal("Monkey","sound","frequency","image",6,(7,4),copy.deepcopy(NEWmaze)),a.Animal("Pig","sound","frequency","image",6,(4,2),copy.deepcopy(NEWmaze))]
+
+duck_img = pygame.image.load("duck.png")
+cat_img = pygame.image.load("cat.png")
+cow_img = pygame.image.load("cow.png")
+dog_img = pygame.image.load("dog.png")  
+donkey_img = pygame.image.load("donkey.png")    
+kathy_img = pygame.image.load("kathy.png")  
+lion_img = pygame.image.load("lion.png")    
+monkey_img = pygame.image.load("monkey.png")
+pig_img = pygame.image.load("pig.png")
+        
+animals=[a.Animal("Duck","sound","frequency",duck_img,9,(1,0),copy.deepcopy(NEWmaze)),a.Animal("Cat","sound","frequency",cat_img,8,(4,7),copy.deepcopy(NEWmaze)),a.Animal("Cow","sound","frequency",cow_img,8,(0,2),copy.deepcopy(NEWmaze)),a.Animal("Dog","sound","frequency",dog_img,8,(7,2),copy.deepcopy(NEWmaze)),a.Animal("Donkey","sound","frequency",donkey_img,6,(0,4),copy.deepcopy(NEWmaze)),a.Animal("Kathy","sound","frequency",kathy_img,6,(0,7),copy.deepcopy(NEWmaze)),a.Animal("Lion","sound","frequency",lion_img,6,(5,0),copy.deepcopy(NEWmaze)),a.Animal("Monkey","sound","frequency",monkey_img,6,(7,4),copy.deepcopy(NEWmaze)),a.Animal("Pig","sound","frequency",pig_img,6,(4,2),copy.deepcopy(NEWmaze))]
 dirs={(1,0):(-2,2),(-1,0):(2,-2),(0,1):(-1,1),(0,-1):(1,-1),(1,1):(-1,2),(-1,-1):(1,-2),(1,-1):(1,2),(-1,1):(-1,-2)}
 
 createValues(animals)

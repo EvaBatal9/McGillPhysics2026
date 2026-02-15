@@ -2,7 +2,6 @@ import numpy as np
 import librosa # type: ignore
 from pathlib import Path
 
-
 def array_sr_function(file_path):
     Amplitude, sr = librosa.load(file_path, sr=None)
     

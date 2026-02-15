@@ -104,8 +104,6 @@ class DirecionButton:
         }[self.direction]
             signal=makeSignal((player_pos[0]+dx,player_pos[1]+dy))
             amps=amplitude_generator((player_pos[0]+dx,player_pos[1]+dy),signal)
-            print(signal)
-            print(amps)
 
 
     

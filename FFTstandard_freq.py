@@ -14,6 +14,8 @@ animals = {
     "Monkey": Monkey_pressure,
     "Pig": Pig_pressure
 }
+
+
 for name, data in animals.items():
     time, pressure = data
 
@@ -26,13 +28,12 @@ for name, data in animals.items():
 
     positive = freqs > 0
 
-    def ID_animals(freqs, magnitude):
-        i = np.argmax(magnitude)
-        ID = freqs[i]
-        return ID
+    ID = freqs[np.argmax(magnitude[positive])]
 
-    print(ID_animals(freqs, magnitude))
+    animals[name] = (time, pressure, ID)
+  
     
+
 
     plt.figure(figsize=(10,4))
     plt.xlim(0,5000)
@@ -43,4 +44,3 @@ for name, data in animals.items():
     plt.grid()
     plt.show()
     
-

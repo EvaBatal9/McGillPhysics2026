@@ -39,8 +39,10 @@ def bounce(x,y,strength,wallHitting,wallEntering, emptycount):
             else:
                 dissipation=0.91
         strength*=dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2)*emptycount))
+        emptycount=1
         print('strength is ',strength)
         if wallHitting+wallEntering==0:
+            emptycount+=1
             if abs(wallEntering)==2:
                 dirs=(-1,1)
             else:
@@ -50,22 +52,23 @@ def bounce(x,y,strength,wallHitting,wallEntering, emptycount):
                 next=findNextPlace(dir,x,y)
                 print(next[1],next[2])
                 if next[0]=='x':
-                    bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2))),wallHitting*-1,dir)
+                    bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2)*emptycount)),wallHitting*-1,dir,emptycount)
                 else:
-                    bounce(next[1],next[2],strength,wallEntering,dir*-1)
+                    bounce(next[1],next[2],strength,wallEntering,dir*-1,emptycount)
         else:
             barrier=wallEntering*-1
             next=findNextPlace(barrier,x,y)
             if next[0]=='x':
-                bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2))),wallHitting*-1,barrier)
+                bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2)*emptycount)),wallHitting*-1,barrier,emptycount)
             else:
-                bounce(next[1],next[2],strength,wallHitting*-1,wallEntering)
+                bounce(next[1],next[2],strength,wallHitting*-1,wallEntering,emptycount)
     else:
-        strength*=e**-((5.95**-10)*(pi**2)*(avfrequency**2))
+        strength*=e**-((5.95**-10)*(pi**2)*(avfrequency**2*emptycount))
         if wallEntering+wallHitting==0:
-            bounce(directNext[1],directNext[2],strength,wallHitting,wallEntering)
+            emptycount+=1
+            bounce(directNext[1],directNext[2],strength,wallHitting,wallEntering,emptycount)
         else:
-            bounce(directNext[1],directNext[2],strength,wallHitting*-1,wallEntering*-1)
+            bounce(directNext[1],directNext[2],strength,wallHitting*-1,wallEntering*-1,emptycount)
         
 
 def findNextPlace(wallEntering,x,y):

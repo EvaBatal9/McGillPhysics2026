@@ -85,22 +85,30 @@ def findNextPlace(wallEntering,x,y):
     global NEWmaze
     match wallEntering:
         case -1:
-            if(y>0) and NEWmaze[y-1][x]!='x':
-                return (NEWmaze[y-1][x],x,y-1)
+            if(y>0):
+                if NEWmaze[y-1][x]!='x':
+                    return (NEWmaze[y-1][x],x,y-1)
+                return ('x',x,y)
             return ('x',x,y)
         case 2:
-            if(x<len(NEWmaze[0])) and NEWmaze[y][x+1]!='x':
-                print("moving right")
-                return (NEWmaze[y][x+1],x+1,y)
+            if(x<len(NEWmaze[0])-1):
+                if NEWmaze[y][x+1]!='x':
+                    print("moving right")
+                    return (NEWmaze[y][x+1],x+1,y)
+                return ('x',x,y)
             return ('x',x,y)
         case 1:
-            if(y<len(NEWmaze))and NEWmaze[y+1][x]!='x':
-                return (NEWmaze[y+1][x],x,y+1)
+            if(y<len(NEWmaze)-1):
+                if NEWmaze[y+1][x]!='x':
+                    return (NEWmaze[y+1][x],x,y+1)
+                return ('x',x,y)
             return ('x',x,y)
         case -2:
-            if(x>0) and NEWmaze[y][x-1]!='x':
-                print("moving left")
-                return (NEWmaze[y][x-1],x-1,y)
+            if(x>0): 
+                if NEWmaze[y][x-1]!='x':
+                    print("moving left")
+                    return (NEWmaze[y][x-1],x-1,y)
+                return ('x',x,y)
             return ('x',x,y)
         
 animals=[a.Animal("Duck","sound","frequency","image",6,(1,0),copy.deepcopy(NEWmaze)),a.Animal("Cat","sound","frequency","image",8,(4,7),copy.deepcopy(NEWmaze)),a.Animal("Cow","sound","frequency","image",8,(0,2),copy.deepcopy(NEWmaze)),a.Animal("Dog","sound","frequency","image",8,(7,2),copy.deepcopy(NEWmaze)),a.Animal("Donkey","sound","frequency","image",6,(0,4),copy.deepcopy(NEWmaze)),a.Animal("Kathy","sound","frequency","image",6,(0,7),copy.deepcopy(NEWmaze)),a.Animal("Lion","sound","frequency","image",6,(5,0),copy.deepcopy(NEWmaze)),a.Animal("Monkey","sound","frequency","image",6,(7,4),copy.deepcopy(NEWmaze)),a.Animal("Pig","sound","frequency","image",6,(4,2),copy.deepcopy(NEWmaze))]

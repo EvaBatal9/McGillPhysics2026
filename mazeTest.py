@@ -98,6 +98,7 @@ dirs={(1,0):(-2,2),(-1,0):(2,-2),(0,1):(-1,1),(0,-1):(1,-1),(1,1):(-1,2),(-1,-1)
 
 for animal in animals:
     maze=animal.maze
+    maze[animal.location[1]][animal.location[0]]+=animal.soundStrength
     for dir,orientation in dirs.items():
         if len(maze[0])>animal.location[0]+dir[0]>0 and len(maze)>animal.location[1]+dir[1]>0:
             if maze[animal.location[1]+dir[1]][animal.location[0]+dir[0]]!='x':

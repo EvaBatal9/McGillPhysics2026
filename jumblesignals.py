@@ -12,15 +12,17 @@ k_Lion = 1
 k_Monkey = 1
 k_Pig = 1
 
-time, Duck_pressure = Duck_pressure
-time, Cat_pressure = Cat_pressure
-time, Cow_pressure = Cow_pressure
-time, Dog_pressure = Dog_pressure
-time, Donkey_pressure = Donkey_pressure
-time, Kathy_pressure = Kathy_pressure
-time, Lion_pressure = Lion_pressure
-time, Monkey_pressure = Monkey_pressure
-time, Pig_pressure = Pig_pressure
+time1, Duck_pressure = Duck_pressure
+time2, Cat_pressure = Cat_pressure
+time3, Cow_pressure = Cow_pressure
+time4, Dog_pressure = Dog_pressure
+time5, Donkey_pressure = Donkey_pressure
+time6, Kathy_pressure = Kathy_pressure
+time7, Lion_pressure = Lion_pressure
+time8, Monkey_pressure = Monkey_pressure
+time9, Pig_pressure = Pig_pressure
+
+Time = time8
 
 def evening_out(pressure_array):
     if len(pressure_array) < 117306:

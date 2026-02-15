@@ -31,16 +31,4 @@ for name, data in animals.items():
     ID = freqs[np.argmax(magnitude[positive])]
 
     animals[name] = (time, pressure, ID)
-  
-    
-
-
-    plt.figure(figsize=(10,4))
-    plt.xlim(0,5000)
-    plt.plot(freqs[positive], magnitude[positive])
-    plt.title(f"{name} Frequency Spectrum")
-    plt.xlabel("Frequency (Hz)")
-    plt.ylabel("Amplitude")
-    plt.grid()
-    plt.show()
     

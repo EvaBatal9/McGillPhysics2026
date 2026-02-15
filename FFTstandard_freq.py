@@ -26,7 +26,13 @@ for name, data in animals.items():
 
     positive = freqs > 0
 
+    def ID_animals(freqs, magnitude):
+        i = np.argmax(magnitude)
+        ID = freqs[i]
+        return ID
 
+    print(ID_animals(freqs, magnitude))
+    
 
     plt.figure(figsize=(10,4))
     plt.xlim(0,5000)
@@ -37,3 +43,4 @@ for name, data in animals.items():
     plt.grid()
     plt.show()
     
+

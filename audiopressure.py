@@ -5,7 +5,7 @@ from pathlib import Path
 
 def array_sr_function(file_path):
     Amplitude, sr = librosa.load(file_path, sr=None)
-
+    
     duration = len(Amplitude)/sr
     time = np.arange(len(Amplitude))/sr
 
@@ -21,7 +21,7 @@ def array_sr_function(file_path):
     scale_factor = target_prms / Amplitude_rms
     #associating each amplitude value in y to pressure using scale factor
     pressure = Amplitude * scale_factor
-
+    print("time length: ", len(time), "pressure length: ", len(pressure) )
     return time, pressure
 
 Duck_pressure = array_sr_function('audiofiles/Duckquack.mp3')
@@ -33,3 +33,4 @@ Kathy_pressure = array_sr_function('audiofiles/Kathy.mp3')
 Lion_pressure = array_sr_function('audiofiles/Lion.mp3')
 Monkey_pressure = array_sr_function('audiofiles/Monkey.mp3')
 Pig_pressure = array_sr_function('audiofiles/Pig.mp3')
+

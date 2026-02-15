@@ -15,15 +15,14 @@ time, Monkey_pressure = Monkey_pressure
 time, Pig_pressure = Pig_pressure
 
 #using scipy fft to convert to frequency domain (it is now pressure over frequency)
-Duck_fft = DFT(duck_pressure)
-Cat_fft = DFT(Cat_pressure)
-Cow_fft = DFT(Cow_pressure)
-Dog_fft = DFT(Dog_pressure)
-Donkey_fft = DFT(Donkey_pressure)
-Kathy_fft = DFT(Kathy_pressure)
-Lion_fft = DFT(Lion_pressure)
-Monkey_fft = DFT(Monkey_pressure)
-Pig_fft = DFT(Pig_pressure)
+Duck_dft = DFT(duck_pressure)
+Cat_dft = DFT(Cat_pressure)
+Cow_dft = DFT(Cow_pressure)
+Dog_dft = DFT(Dog_pressure)
+Donkey_dft = DFT(Donkey_pressure)
+Kathy_dft = DFT(Kathy_pressure)
+Lion_dft = DFT(Lion_pressure)
+Monkey_dft = DFT(Monkey_pressure)
+Pig_dft = DFT(Pig_pressure)
 
-
-print(Duck_fft[10000:10010])
+print(Duck_dft[10000:10010])

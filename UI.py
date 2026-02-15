@@ -326,6 +326,7 @@ while running:
     for animal in animals:
         if animal.location==player_pos:
             print(animal.name)
+            screen.blip
     for name,button in buttons.items():
         if button.visible:
             button.update()

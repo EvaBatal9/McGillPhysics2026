@@ -3,12 +3,19 @@ import sys
 import math
 import time
 pygame.init()
-from signalscope import duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp
+#from signalscope import duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp
+import scipy.fft as sp
+from jumblesignals import makeSignal, Time
+from mazeTest import animals
+import matplotlib.pyplot as plt
+import numpy as np
 
 from jumblesignals import makeSignal
 pygame.init() 
 
-
+LABEL_FONT = pygame.font.SysFont('arial', 9)
+BASELINE = 520
+MAXHEIGHT = 180
 MENU = "menu"
 GAME = "game"
 
@@ -187,19 +194,85 @@ def draw_game():
         rotated_arrow = pygame.transform.rotate(original_arrow, angle)
         rotated_rect = rotated_arrow.get_rect(center=arrow_pos)
         screen.blit(rotated_arrow, rotated_rect)
+    pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(20, 350, 310, 200))
 
     screen.blit(game_surface, (screen_width // 2 - game_surface.get_width() // 2, screen_height // 2 - game_surface.get_height() // 2))
 
-k = 0
-
-def getting_amplitude_per_time(animal_amp):
-    while k <= len(animal_amp):
-        current_amp = animal_amp[k]
-        time.sleep(0.1)
-        k += 1
-    
 
 
+time_step = int(len(Time) / 26.6)
+
+
+duck_amp = []
+cat_amp = []
+cow_amp = []
+dog_amp = []
+donkey_amp = []
+kathy_amp = []
+lion_amp = []
+monkey_amp = []
+pig_amp = []
+
+def amplitude_generator(position):
+        
+    k = 0
+    i = time_step
+
+    while i <= len(Time):
+        #everything from k = 0 to time_step is the first interval
+        #then k += time step, i += timestep
+        #then repeat until i = len(Time)
+        
+        current_time_array = Time[k:i]
+        current_pressure_array = makeSignal(position)[k:i]
+
+        N = len(current_pressure_array)
+        dt = current_time_array[1] - current_time_array[0]
+        freqs = sp.fftfreq(N, dt)
+
+        fft_vals = sp.fft(current_pressure_array)
+        magnitude = np.abs(fft_vals)
+
+        positive = freqs > 0
+
+        amplitudes = {}
+
+        for name in animals:
+            target_freq = animals[name][2]
+            idx = np.argmin(np.abs(freqs - target_freq))
+            amplitudes[name] = magnitude[idx]
+
+
+        duck_amp.append(int(amplitudes["Duck"]))
+        cat_amp.append(int(amplitudes["Cat"]))
+        cow_amp.append(int(amplitudes["Cow"]))
+        dog_amp.append(int(amplitudes["Dog"]))
+        donkey_amp.append(int(amplitudes["Donkey"]))
+        kathy_amp.append(int(amplitudes["Kathy"]))
+        lion_amp.append(int(amplitudes["Lion"]))
+        monkey_amp.append(int(amplitudes["Monkey"]))
+        pig_amp.append(int(amplitudes["Pig"]))
+
+        k += time_step
+        i += time_step
+
+    return duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp
+
+        #pseudo code for what's going on:
+        #we have the amplitude per frequency graph for the active time interval we are in, 
+        # we see what the amplitude is for each of the animals IDs, 
+        # and then we associate an amplitude to each animal
+
+
+
+def get_amplitude_at_index(animal_amp, index):
+    if not animal_amp:
+        return 0
+    index = index % len(animal_amp)  # wrap around
+    return animal_amp[index]
+
+#duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp = amplitude_generator(position)
+t = 0
 running = True
 clock = pygame.time.Clock()
 #calling amplitude generator function
@@ -218,13 +291,80 @@ while running:
     
     if state == MENU:
         draw_menu()
+    
     elif state == GAME:
-        
-            
-
-
+        """duck_amp_at_t = getting_amplitude_at_index(duck_amp, t)
+        cat_amp_at_t = getting_amplitude_per_time(cat_amp)
+        cow_amp_at_t = getting_amplitude_per_time(cow_amp)
+        dog_amp_at_t = getting_amplitude_per_time(dog_amp)
+        donkey_amp_at_t = getting_amplitude_per_time(donkey_amp)
+        kathy_amp_at_t = getting_amplitude_per_time(kathy_amp)
+        lion_amp_at_t = getting_amplitude_per_time(lion_amp)
+        monkey_amp_at_t = getting_amplitude_per_time(monkey_amp)
+        pig_amp_at_t = getting_amplitude_per_time(pig_amp)
+"""
         draw_game()
-        
+
+        duck_height = MAXHEIGHT * (get_amplitude_at_index(duck_amp, t)/222)
+        duck_rect = pygame.Rect(25, BASELINE - duck_height, 30, duck_height)
+        pygame.draw.rect(screen, (255, 255, 224), duck_rect)
+        duck_label = LABEL_FONT.render("Duck", True, (0,0,0))
+        screen.blit(duck_label, duck_label.get_rect(center=(duck_rect.centerx, BASELINE + 20)))
+
+        cat_height = MAXHEIGHT * (get_amplitude_at_index(cat_amp, t)/222)
+        cat_rect = pygame.Rect(55, BASELINE - cat_height, 30, cat_height)
+        pygame.draw.rect(screen, (211, 211, 211), cat_rect)
+        cat_label = LABEL_FONT.render("Cat", True, (0,0,0))
+        screen.blit(cat_label, cat_label.get_rect(center=(cat_rect.centerx, BASELINE + 20)))
+
+        cow_height = MAXHEIGHT * (get_amplitude_at_index(cow_amp, t)/222)
+        cow_rect = pygame.Rect(85, BASELINE - cow_height, 30, cow_height)
+        pygame.draw.rect(screen, (0, 0, 0), cow_rect)
+        cow_label = LABEL_FONT.render("Cow", True, (0,0,0))
+        screen.blit(cow_label, cow_label.get_rect(center=(cow_rect.centerx, BASELINE + 20)))
+
+        dog_height = MAXHEIGHT * (get_amplitude_at_index(dog_amp, t)/222)
+        dog_rect = pygame.Rect(115, BASELINE - dog_height, 30, dog_height)
+        pygame.draw.rect(screen, (101, 67, 33), dog_rect)
+        dog_label = LABEL_FONT.render("Dog", True, (0,0,0))
+        screen.blit(dog_label, dog_label.get_rect(center=(dog_rect.centerx, BASELINE + 20)))
+
+        donkey_height = MAXHEIGHT * (get_amplitude_at_index(donkey_amp, t)/222)
+        donkey_rect = pygame.Rect(145, BASELINE - donkey_height, 30, donkey_height)
+        pygame.draw.rect(screen, (128, 128, 128), donkey_rect)
+        donkey_label = LABEL_FONT.render("Donkey", True, (0,0,0))
+        screen.blit(donkey_label, donkey_label.get_rect(center=(donkey_rect.centerx, BASELINE + 20)))
+
+        kathy_height = MAXHEIGHT * (get_amplitude_at_index(kathy_amp, t)/222)
+        kathy_rect = pygame.Rect(175, BASELINE - kathy_height, 30, kathy_height)
+        pygame.draw.rect(screen, (216, 191, 216), kathy_rect)
+        kathy_label = LABEL_FONT.render("Kathy", True, (0,0,0))
+        screen.blit(kathy_label, kathy_label.get_rect(center=(kathy_rect.centerx, BASELINE + 20)))
+
+        lion_height = MAXHEIGHT * (get_amplitude_at_index(lion_amp, t)/222)
+        lion_rect = pygame.Rect(205, BASELINE - lion_height, 30, lion_height)
+        pygame.draw.rect(screen, (207, 185, 151), lion_rect)
+        lion_label = LABEL_FONT.render("Lion", True, (0,0,0))
+        screen.blit(lion_label, lion_label.get_rect(center=(lion_rect.centerx, BASELINE + 20)))
+
+        monkey_height = MAXHEIGHT * (get_amplitude_at_index(monkey_amp, t)/222)
+        monkey_rect = pygame.Rect(235, BASELINE - monkey_height, 30, monkey_height)
+        pygame.draw.rect(screen, (150, 75, 0), monkey_rect)
+        monkey_label = LABEL_FONT.render("Monkey", True, (0,0,0))
+        screen.blit(monkey_label, monkey_label.get_rect(center=(monkey_rect.centerx, BASELINE + 20)))
+
+        pig_height = MAXHEIGHT * (get_amplitude_at_index(pig_amp, t)/222)
+        pig_rect = pygame.Rect(265, BASELINE - pig_height, 30, pig_height)
+        pygame.draw.rect(screen, (255, 182, 193), pig_rect)
+        pig_label = LABEL_FONT.render("Pig", True, (0,0,0))
+        screen.blit(pig_label, pig_label.get_rect(center=(pig_rect.centerx, BASELINE + 20)))
+
+        fox_rect = pygame.Rect(295, BASELINE-5, 30, 5)
+        pygame.draw.rect(screen, (250, 200, 152), fox_rect) 
+        fox_label = LABEL_FONT.render("Fox", True, (0, 0, 0))
+        screen.blit(fox_label, fox_label.get_rect(center=(fox_rect.centerx, BASELINE+20)))
+
+        t+= 1
 
     pygame.display.flip()
     clock.tick(60)

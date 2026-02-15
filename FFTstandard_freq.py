@@ -31,7 +31,7 @@ for name, data in animals.items():
 
     mean_freq = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
 
-    mean_pressure = np.avg(pressure)
+    mean_pressure = np.mean(pressure)
 
     animals[name] = (time, pressure, ID, mean_freq, mean_pressure)
 

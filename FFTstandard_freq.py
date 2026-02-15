@@ -53,14 +53,16 @@ for animal in animals:
 
     ID = freqs[np.argmax(magnitude[positive])]
     weighted_mean = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
+    mean_freq = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
+    mean_pressure = np.avg(pressure)
 
     animal.time=time
     animal.pressure=pressure
     animal.ID=ID
     animal.weightedMean=weighted_mean
-    mean_freq = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
-
-    mean_pressure = np.avg(pressure)
+    animal.meanFreq=mean_freq
+    animal.meanPressure=mean_pressure
+    
 
     #animals[name] = (time, pressure, ID, mean_freq, mean_pressure)
 

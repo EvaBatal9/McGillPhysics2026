@@ -11,6 +11,8 @@ class Animal:
     time=None
     pressure=None
     weightedMean=None
+    meanFreq=None
+    meanPressure=None
 
 
     def __init__(self,name,sound,frequency,image,soundStrength,location,maze):

@@ -2,6 +2,14 @@ import numpy as np
 import librosa # type: ignore
 from pathlib import Path
 
+def getRms(animals):
+    files=['audiofiles/Duckquack.mp3','audiofiles/Cat.mp3','audiofiles/Cow.mp3','audiofiles/Dog.mp3','audiofiles/Donkey.mp3','audiofiles/Kathy.mp3','audiofiles/Lion.mp3','audiofiles/Monkey.mp3','audiofiles/Pig.mp3']
+    for i in range(len(files)):
+        Amplitude, sr = librosa.load(files[i], sr=None)
+        Amplitude_rms = np.sqrt(np.mean(Amplitude**2))
+        animals[i].rms=Amplitude_rms
+
+
 def array_sr_function(file_path):
     Amplitude, sr = librosa.load(file_path, sr=None)
     

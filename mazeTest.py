@@ -2,6 +2,7 @@ import Animal as a
 import copy
 from math import pi, e, sqrt
 from FFTstandard_freq import createValues
+from audiopressure import getRms
 
 maze=[['x','x',0,'x','x'],
       [0,0,0,0,0],
@@ -27,14 +28,13 @@ NEWmaze=[['x', 0, 'x', 'x', 'x', 0, 'x', 'x'],
          ['x', 0, 'x', 'x', 0, 'x', 'x', 'x'],
          [0, 0, 'x', 'x', 0, 'x', 'x', 'x']]
 
-avfrequency=500
 
 
 #walls will be coded as 1,2,-1,-2 from the top clockwise
 def bounce(x,y,strength,wallHitting,wallEntering, emptycount, mean_freq):
     global NEWmaze
     print(x,y,NEWmaze[y][x],strength)
-    if strength<=1: #temporarily 3, but should be a number based on how long we want the wave to propagate for
+    if strength<=0.1: #temporarily 3, but should be a number based on how long we want the wave to propagate for
         print("finished a route")
         return
     NEWmaze[y][x]+=strength
@@ -50,7 +50,7 @@ def bounce(x,y,strength,wallHitting,wallEntering, emptycount, mean_freq):
                 dissipation=(1-freqcomplement[freq.index(f)])
             else:
                 dissipation=0.5
-        strength*=dissipation*(e**-((5.95**-10)*(pi**2)*(mean_freq**2)*emptycount))
+        strength*=round(dissipation*(e**-((5.95**-10)*(pi**2)*(mean_freq**2)*emptycount)),4)
         emptycount=1
         print('strength is ',strength)
         if wallHitting+wallEntering==0:
@@ -64,18 +64,18 @@ def bounce(x,y,strength,wallHitting,wallEntering, emptycount, mean_freq):
                 next=findNextPlace(dir,x,y)
                 print(next[1],next[2])
                 if next[0]=='x':
-                    bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(mean_freq**2)*emptycount)),wallHitting*-1,dir,emptycount,mean_freq)
+                    bounce(next[1],next[2],round(strength*dissipation*(e**-((5.95**-10)*(pi**2)*(mean_freq**2)*emptycount)),4),wallHitting*-1,dir,emptycount,mean_freq)
                 else:
                     bounce(next[1],next[2],strength,wallEntering,dir*-1,emptycount,mean_freq)
         else:
             barrier=wallEntering*-1
             next=findNextPlace(barrier,x,y)
             if next[0]=='x':
-                bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(mean_freq**2)*emptycount*sqrt(2))),wallHitting*-1,barrier,emptycount,mean_freq)
+                bounce(next[1],next[2],round(strength*dissipation*(e**-((5.95**-10)*(pi**2)*(mean_freq**2)*emptycount*sqrt(2))),4),wallHitting*-1,barrier,emptycount,mean_freq)
             else:
                 bounce(next[1],next[2],strength,wallHitting*-1,wallEntering,emptycount,mean_freq)
     else:
-        strength*=e**-((5.95**-10)*(pi**2)*(mean_freq**2*emptycount))
+        strength*=round(e**-((5.95**-10)*(pi**2)*(mean_freq**2*emptycount)),4)
         if wallEntering+wallHitting==0:
             emptycount+=1
             bounce(directNext[1],directNext[2],strength,wallHitting,wallEntering,emptycount,mean_freq)
@@ -117,6 +117,7 @@ animals=[a.Animal("Duck","sound","frequency","image",9,(1,0),copy.deepcopy(NEWma
 dirs={(1,0):(-2,2),(-1,0):(2,-2),(0,1):(-1,1),(0,-1):(1,-1),(1,1):(-1,2),(-1,-1):(1,-2),(1,-1):(1,2),(-1,1):(-1,-2)}
 
 createValues(animals)
+getRms(animals)
 
 for animal in animals:
     NEWmaze=animal.maze
@@ -126,8 +127,9 @@ for animal in animals:
             if NEWmaze[animal.location[1]+dir[1]][animal.location[0]+dir[0]]!='x':
                 print("sent out")
                 print(dir)
-                bounce(animal.location[0],animal.location[1],animal.meanPressure,orientation[1],orientation[0],1,animal.meanFreq)
+                bounce(animal.location[0],animal.location[1],float(animal.rms*1000),orientation[1],orientation[0],1,animal.meanFreq)
                 print(animal.meanFreq, animal.meanPressure)
 
     for row in NEWmaze:
         print(row)
+    print(animal.name)

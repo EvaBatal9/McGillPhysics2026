@@ -29,14 +29,15 @@ def evening_out(pressure_array):
         pressure_array = np.concatenate((pressure_array, padding))
     return pressure_array
 
-foo=[]
-location=(1,2)
-for i in range(len(animals)):
-    pres=animals[i].maze[location[1]][location[2]]*evening_out(pressures[i])
-    foo.append(pres)
+def makeSignal(location):
+    foo=[]
+    
+    for i in range(len(animals)):
+        pres=animals[i].maze[location[1]][location[0]]*evening_out(pressures[i])
+        foo.append(pres)
 
-#master_pressure_array = np.array([k_Duck * evening_out(Duck_pressure), k_Cat * evening_out(Cat_pressure), k_Cow * evening_out(Cow_pressure), k_Dog * evening_out(Dog_pressure), k_Donkey * evening_out(Donkey_pressure), k_Kathy * evening_out(Kathy_pressure), k_Lion * evening_out(Lion_pressure), k_Monkey * evening_out(Monkey_pressure), k_Pig * evening_out(Pig_pressure)])
+    #master_pressure_array = np.array([k_Duck * evening_out(Duck_pressure), k_Cat * evening_out(Cat_pressure), k_Cow * evening_out(Cow_pressure), k_Dog * evening_out(Dog_pressure), k_Donkey * evening_out(Donkey_pressure), k_Kathy * evening_out(Kathy_pressure), k_Lion * evening_out(Lion_pressure), k_Monkey * evening_out(Monkey_pressure), k_Pig * evening_out(Pig_pressure)])
 
-master_pressure_array=np.array(foo)
-jumbled_pressure = np.sum(master_pressure_array, axis=0)
-print(jumbled_pressure)
+    master_pressure_array=np.array(foo)
+    jumbled_pressure = np.sum(master_pressure_array, axis=0)
+    return jumbled_pressure

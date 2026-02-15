@@ -2,7 +2,8 @@ import pygame
 import sys
 import math
 import time
-pygame.init()  
+from jumblesignals import makeSignal
+pygame.init() 
 
 
 MENU = "menu"

@@ -65,6 +65,36 @@ def createValues(animals):
         animal.meanFreq=mean_freq
         animal.meanPressure=mean_pressure
         
-
         #animals[name] = (time, pressure, ID, mean_freq, mean_pressure)
+
+def plot_animal_spectra(animals):
+    plt.figure(figsize=(10,6))
+
+    for animal in animals:
+        time = animal.time
+        pressure = animal.pressure
+
+        N = len(pressure)
+        dt = time[1] - time[0]
+
+        freqs = sp.fftfreq(N, dt)
+        fft_vals = sp.fft(pressure)
+        magnitude = np.abs(fft_vals)
+
+        positive = freqs > 0
+
+        
+        plt.figure(figsize=(8,5))
+        plt.plot(freqs[positive], magnitude[positive], color='blue')
+        plt.title(f"Amplitude vs Frequency: {animal.name}")
+        plt.xlabel("Frequency (Hz)")
+        plt.ylabel("Amplitude")
+        plt.xlim(0, 4000)  # optional, zoom in
+        plt.grid(True)
+        plt.show()
+
+
+
+   
+
 

@@ -9,8 +9,7 @@ from jumblesignals import makeSignal, Time
 from mazeTest import animals
 import matplotlib.pyplot as plt
 import numpy as np
-
-from jumblesignals import makeSignal
+from FFTstandard_freq import createValues, plot_animal_spectra
 pygame.init() 
 
 LABEL_FONT = pygame.font.SysFont('arial', 9)
@@ -275,6 +274,13 @@ def get_amplitude_at_index(animal_amp, index):
     return animal_amp[index]
 
 #duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp = amplitude_generator(position)
+
+createValues(animals)
+plot_animal_spectra(animals)
+
+# THEN start pygame stuff
+
+
 
 running = True
 clock = pygame.time.Clock()

@@ -133,3 +133,4 @@ for animal in animals:
 
     for row in NEWmaze:
         print(row)
+    print(animal.name)

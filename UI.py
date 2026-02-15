@@ -1,7 +1,9 @@
 import pygame
 import sys
 import math
+import time
 pygame.init()  
+
 
 MENU = "menu"
 GAME = "game"
@@ -82,7 +84,7 @@ maze=[['x', 'duck', 'x', 'x', 'x', 'lion', 'x', 'x'],
          ['x', 0, 'x', 0, 0, 0, 0, 'x'],
          ['cow', 0, 'fox', 0, 'pig', 'x', 0, 'dog'],
          ['x', 0, 'x', 0, 'x', 0, 0, 'x'],
-         ['moose', 0, 'x', 0, 'x', 0, 'x', 'elephant'],
+         ['donkey', 0, 'x', 0, 'x', 0, 'x', 'monkey'],
          ['x', 0, 0, 'start', 0, 0, 0, 0],
          ['x', 0, 'x', 'x', 0, 'x', 'x', 'x'],
          ['kathy', 0, 'x', 'x', 'cat', 'x', 'x', 'x']]

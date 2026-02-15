@@ -15,7 +15,6 @@ animals = {
     "Pig": Pig_pressure
 }
 
-
 for name, data in animals.items():
     time, pressure = data
 
@@ -30,5 +29,7 @@ for name, data in animals.items():
 
     ID = freqs[np.argmax(magnitude[positive])]
 
-    animals[name] = (time, pressure, ID)
-    
+    weighted_mean = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
+
+    animals[name] = (time, pressure, ID, weighted_mean)
+

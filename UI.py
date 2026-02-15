@@ -76,6 +76,7 @@ class DirecionButton:
         return self.visible and self.rect.collidepoint(pos)
     
     def update_buttons():
+        global player_pos
         x, y = player_pos 
         valid_directions = get_valid_directions(maze, x, y)
 

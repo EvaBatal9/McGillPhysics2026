@@ -113,7 +113,7 @@ def findNextPlace(wallEntering,x,y):
                 return ('x',x,y)
             return ('x',x,y)
         
-animals=[a.Animal("Duck","sound","frequency","image",8,(1,0),copy.deepcopy(NEWmaze)),a.Animal("Cat","sound","frequency","image",8,(4,7),copy.deepcopy(NEWmaze)),a.Animal("Cow","sound","frequency","image",8,(0,2),copy.deepcopy(NEWmaze)),a.Animal("Dog","sound","frequency","image",8,(7,2),copy.deepcopy(NEWmaze)),a.Animal("Donkey","sound","frequency","image",6,(0,4),copy.deepcopy(NEWmaze)),a.Animal("Kathy","sound","frequency","image",6,(0,7),copy.deepcopy(NEWmaze)),a.Animal("Lion","sound","frequency","image",6,(5,0),copy.deepcopy(NEWmaze)),a.Animal("Monkey","sound","frequency","image",6,(7,4),copy.deepcopy(NEWmaze)),a.Animal("Pig","sound","frequency","image",6,(4,2),copy.deepcopy(NEWmaze))]
+animals=[a.Animal("Duck","sound","frequency","image",9,(1,0),copy.deepcopy(NEWmaze)),a.Animal("Cat","sound","frequency","image",8,(4,7),copy.deepcopy(NEWmaze)),a.Animal("Cow","sound","frequency","image",8,(0,2),copy.deepcopy(NEWmaze)),a.Animal("Dog","sound","frequency","image",8,(7,2),copy.deepcopy(NEWmaze)),a.Animal("Donkey","sound","frequency","image",6,(0,4),copy.deepcopy(NEWmaze)),a.Animal("Kathy","sound","frequency","image",6,(0,7),copy.deepcopy(NEWmaze)),a.Animal("Lion","sound","frequency","image",6,(5,0),copy.deepcopy(NEWmaze)),a.Animal("Monkey","sound","frequency","image",6,(7,4),copy.deepcopy(NEWmaze)),a.Animal("Pig","sound","frequency","image",6,(4,2),copy.deepcopy(NEWmaze))]
 dirs={(1,0):(-2,2),(-1,0):(2,-2),(0,1):(-1,1),(0,-1):(1,-1),(1,1):(-1,2),(-1,-1):(1,-2),(1,-1):(1,2),(-1,1):(-1,-2)}
 
 createValues(animals)
@@ -126,8 +126,8 @@ for animal in animals:
             if NEWmaze[animal.location[1]+dir[1]][animal.location[0]+dir[0]]!='x':
                 print("sent out")
                 print(dir)
-                bounce(animal.location[0],animal.location[1],animal.soundStrength,orientation[1],orientation[0],1,animal.meanFreq)
-                print(animal.meanFreq)
+                bounce(animal.location[0],animal.location[1],animal.meanPressure,orientation[1],orientation[0],1,animal.meanFreq)
+                print(animal.meanFreq, animal.meanPressure)
 
     for row in NEWmaze:
         print(row)

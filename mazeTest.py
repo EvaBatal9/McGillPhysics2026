@@ -1,7 +1,7 @@
 import Animal as a
 import copy
 from math import pi, e, sqrt
-from FFTstandard_freq import animal
+from FFTstandard_freq import 
 
 maze=[['x','x',0,'x','x'],
       [0,0,0,0,0],

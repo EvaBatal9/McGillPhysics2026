@@ -9,7 +9,6 @@ class Animal:
     unpackedPressure=None
     pressure=None
     time=None
-    pressure=None
     weightedMean=None
     meanFreq=None
     meanPressure=None

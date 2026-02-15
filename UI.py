@@ -372,8 +372,12 @@ lion_height = 0
 monkey_height = 0
 pig_height = 0
 
+for animal in animals:
+    screen.blit(animal.image, (300,400))
+
 while running:
-    
+    for animal in animals:
+        animal.image.set_alpha(0)
     duck_amp = []
     cat_amp = []
     cow_amp = []
@@ -386,7 +390,8 @@ while running:
     for animal in animals:
         if animal.location==player_pos:
             print(animal.name)
-            screen.blip
+            animal.image.set_alpha(255)
+            
     for name,button in buttons.items():
         if button.visible:
             button.update()

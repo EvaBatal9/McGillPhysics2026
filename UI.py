@@ -153,6 +153,9 @@ def handle_game_events(event):
     if event.type == pygame.MOUSEBUTTONDOWN:
         for button in buttons.values():
             if button.is_clicked(event.pos):
+                #this should be generated when you point the signalscope in a direction and use the coordinates of the pointed direction
+                signal=makeSignal(player_pos)
+                print(signal)
                 move_player(button.direction)
 
 def handle_menu_events(event):

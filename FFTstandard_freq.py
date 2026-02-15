@@ -29,7 +29,9 @@ for name, data in animals.items():
 
     ID = freqs[np.argmax(magnitude[positive])]
 
-    weighted_mean = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
+    mean_freq = np.sum(freqs[positive] * magnitude[positive]) / np.sum(magnitude[positive])
 
-    animals[name] = (time, pressure, ID, weighted_mean)
+    mean_pressure = np.avg(pressure)
+
+    animals[name] = (time, pressure, ID, mean_freq, mean_pressure)
 

@@ -23,7 +23,7 @@ avfrequency=500
 def bounce(x,y,strength,wallHitting,wallEntering, emptycount):
     global maze
     print(x,y,maze[y][x],strength)
-    if strength<=0:
+    if strength<=0.6: #temporarily 0.6, but should be a number based on how long we want the wave to propagate for
         print("finished a route")
         return
     maze[y][x]+=strength
@@ -102,7 +102,7 @@ for animal in animals:
         if len(maze[0])>animal.location[0]+dir[0]>0 and len(maze)>animal.location[1]+dir[1]>0:
             if maze[animal.location[1]+dir[1]][animal.location[0]+dir[0]]!='x':
                 print("sent out")
-                bounce(animal.location[0],animal.location[1],animal.soundStrength,orientation[1],orientation[0])
+                bounce(animal.location[0],animal.location[1],animal.soundStrength,orientation[1],orientation[0],1)
 
     for row in maze:
         print(row)

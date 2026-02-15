@@ -5,6 +5,8 @@ import time
 pygame.init()
 from signalscope import duck_amp, cat_amp, cow_amp, dog_amp, donkey_amp, kathy_amp, lion_amp, monkey_amp, pig_amp
 
+from jumblesignals import makeSignal
+pygame.init() 
 
 
 MENU = "menu"
@@ -154,6 +156,9 @@ def handle_game_events(event):
     if event.type == pygame.MOUSEBUTTONDOWN:
         for button in buttons.values():
             if button.is_clicked(event.pos):
+                #this should be generated when you point the signalscope in a direction and use the coordinates of the pointed direction
+                signal=makeSignal(player_pos)
+                print(signal)
                 move_player(button.direction)
 
 def handle_menu_events(event):

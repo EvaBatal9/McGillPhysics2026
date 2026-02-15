@@ -20,7 +20,7 @@ NEWmaze=[['x', 'duck', 'x', 'x', 'x', 'lion', 'x', 'x'],
 avfrequency=500
 
 #walls will be coded as 1,2,-1,-2 from the top clockwise
-def bounce(x,y,strength,wallHitting,wallEntering):
+def bounce(x,y,strength,wallHitting,wallEntering, emptycount):
     global maze
     print(x,y,maze[y][x],strength)
     if strength<=0:
@@ -38,7 +38,7 @@ def bounce(x,y,strength,wallHitting,wallEntering):
                 dissipation=(1-freqcomplement[freq.index(f)])
             else:
                 dissipation=0.91
-        strength*=dissipation*(e**-((5.95**-10)(pi**2)(avfrequency**2)))
+        strength*=dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2)*emptycount))
         print('strength is ',strength)
         if wallHitting+wallEntering==0:
             if abs(wallEntering)==2:
@@ -50,18 +50,18 @@ def bounce(x,y,strength,wallHitting,wallEntering):
                 next=findNextPlace(dir,x,y)
                 print(next[1],next[2])
                 if next[0]=='x':
-                    bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)(pi**2)(avfrequency**2))),wallHitting*-1,dir)
+                    bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2))),wallHitting*-1,dir)
                 else:
                     bounce(next[1],next[2],strength,wallEntering,dir*-1)
         else:
             barrier=wallEntering*-1
             next=findNextPlace(barrier,x,y)
             if next[0]=='x':
-                bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)(pi**2)(avfrequency**2))),wallHitting*-1,barrier)
+                bounce(next[1],next[2],strength*dissipation*(e**-((5.95**-10)*(pi**2)*(avfrequency**2))),wallHitting*-1,barrier)
             else:
                 bounce(next[1],next[2],strength,wallHitting*-1,wallEntering)
     else:
-        strength*=e**-((5.95**-10)(pi**2)(avfrequency**2))
+        strength*=e**-((5.95**-10)*(pi**2)*(avfrequency**2))
         if wallEntering+wallHitting==0:
             bounce(directNext[1],directNext[2],strength,wallHitting,wallEntering)
         else:

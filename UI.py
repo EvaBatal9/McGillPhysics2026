@@ -373,6 +373,20 @@ monkey_height = 0
 pig_height = 0
 
 while running:
+    
+    duck_amp = []
+    cat_amp = []
+    cow_amp = []
+    dog_amp = []
+    donkey_amp = []
+    kathy_amp = []
+    lion_amp = []
+    monkey_amp = []
+    pig_amp = []
+    for animal in animals:
+        if animal.location==player_pos:
+            print(animal.name)
+            screen.blip
     for name,button in buttons.items():
         if button.visible:
             button.update()
